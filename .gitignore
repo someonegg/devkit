@@ -1,0 +1,8 @@
+.DS_Store
+.worktrees/
+
+.playwright-cli/
+.playwright-mcp/
+
+tmp/
+node_modules/
