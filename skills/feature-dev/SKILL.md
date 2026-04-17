@@ -132,8 +132,8 @@ If the user says "whatever you think is best", provide your recommendation and g
 **Actions**:
 1. Read the ExecPlan in full. If [PLANS.md](PLANS.md) has not been read in this session, read it now.
 2. Implement following the ExecPlan (Plan of Work + Concrete Steps).
-3. Keep code changes committed in incremental, milestone-based commits during execution. Update the ExecPlan **Review Scope** continuously during implementation.
-4. Keep the ExecPlan's milestones and living sections (Progress, Surprises & Discoveries, Decision Log, Outcomes & Retrospective) up to date as you execute, and rewrite the plan if scope shifts.
+3. Keep code changes committed in **incremental, milestone-based commits** during execution. Update the ExecPlan **Review Scope** continuously during implementation.
+4. Keep the ExecPlan's **milestones and living sections (Progress, Surprises & Discoveries, Decision Log, Outcomes & Retrospective)** up to date as you execute. If the scope shifts, rewrite affected sections so the document remains coherent and self-contained.
 5. Proceed through milestones autonomously — do not pause to ask the user for "next steps" between milestones.
 6. Follow codebase conventions strictly.
 7. Write clean code. Add comments only where logic is non-obvious.
