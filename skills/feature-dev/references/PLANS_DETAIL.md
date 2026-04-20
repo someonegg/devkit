@@ -77,6 +77,8 @@ Prefer additive code changes followed by subtractions that keep tests passing. P
 
 This ExecPlan is a living document. The sections `Progress`, `Review Scope`, `Surprises & Discoveries`, `Decision Log`, and `Outcomes & Retrospective` must be kept up to date as work proceeds.
 
+If PLANS.md file is checked into the repo, reference the path to that file here from the repository root and note that this document must be maintained in accordance with PLANS.md.
+
 ## Purpose / Big Picture
 
 Explain in a few sentences what someone gains after this change and how they can see it working. State the user-visible behavior you will enable.

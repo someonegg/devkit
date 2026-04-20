@@ -14,9 +14,9 @@ This file defines how to write and maintain an ExecPlan: a self-contained, livin
 - Explicit acceptance: state behaviors, commands, and observable outputs that prove success.
 
 ## Formatting Rules
-- Default envelope is a single fenced code block labeled `md`; do not nest other triple backticks inside—indent commands, transcripts, and diffs instead.
-- If the file contains only the ExecPlan, omit the enclosing code fence.
-- Use blank lines after headings; prefer prose over lists. Checklists are permitted only in the Progress section (and are mandatory there).
+- Use blank lines after headings; prefer prose over lists.
+- Checklists are permitted only in the Progress section (and are mandatory there).
+- Other sections may use regular bullet lists or short prose where clarity benefits.
 
 ## Guidelines
 - Define jargon immediately and tie it to concrete files or commands in this repo.
@@ -46,10 +46,10 @@ This file defines how to write and maintain an ExecPlan: a self-contained, livin
 ```md
 # <Short, action-oriented description>
 
-This ExecPlan is a living document. The sections Progress, Review Scope, Surprises & Discoveries, Decision Log, and Outcomes & Retrospective must stay up to date as work proceeds.
+This ExecPlan is a living document. The sections Progress, Review Scope, Surprises & Discoveries, Decision Log, and Outcomes & Retrospective must stay up to date as work proceeds. If the scope shifts, rewrite affected sections so the document remains coherent and self-contained.
 
 ## Purpose / Big Picture
-Explain the user-visible behavior gained after this change and how to observe it.
+Explain in a few sentences what someone gains after this change and how they can see it working. State the user-visible behavior you will enable.
 
 ## Progress
 
@@ -100,7 +100,7 @@ Describe the current state relevant to this task as if the reader knows nothing.
 
 ## Plan of Work
 
-Describe, in prose, the sequence of edits and additions. For each edit, name the file and location (function, module) and what to insert or change. Keep it concrete and minimal.
+Describe, in prose, the sequence of edits and additions, organized as explicit milestones within this section. For each edit, name the file and location (function, module) and what to insert or change. Keep it concrete and minimal.
 
 ## Concrete Steps
 

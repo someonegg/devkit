@@ -147,7 +147,7 @@ If the user says "whatever you think is best", provide your recommendation and g
 **Actions**:
 1. Read the ExecPlan **Review Scope** first and derive the exact review target from it (listed commits + listed uncommitted paths). If this section is missing or stale, update it before launching reviewers.
 2. Launch 1 `code-simplifier` subagent once against the current **Review Scope**, complete resulting simplification decisions, and record accepted or rejected simplifications in the ExecPlan **Decision Log**.
-3. **Only after Step 2 is fully completed*, launch 3 `code-reviewer` subagents in parallel with different focuses:
+3. **Only after Step 2 is fully completed**, launch 3 `code-reviewer` subagents in parallel with different focuses:
    - Simplicity/DRY/elegance
    - Bugs/functional correctness
    - Project conventions/abstractions
