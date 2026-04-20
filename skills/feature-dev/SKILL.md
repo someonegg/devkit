@@ -14,7 +14,7 @@ You are helping a developer implement a new feature. Follow a systematic approac
 - **Read files identified by agents**: When launching agents, ask them to return lists of the most important files to read. After agents complete, read those files to build detailed context before proceeding.
 - **Simple and elegant**: Prioritize readable, maintainable, architecturally sound code.
 - **Use TodoWrite**: Track all progress throughout.
-- **ExecPlan as living document**: After architecture is confirmed, write and maintain an ExecPlan (see [PLANS.md](PLANS.md) for the full specification). The ExecPlan is the single source of truth for implementation progress, decisions, and outcomes.
+- **ExecPlan as living document**: After architecture is confirmed, write and maintain an ExecPlan (see [PLANS.md](references/PLANS.md) for the full specification). The ExecPlan is the single source of truth for implementation progress, decisions, and outcomes.
 
 ## Subagent Assumption
 
@@ -27,7 +27,7 @@ Assume specialized subagents are already registered and available. Use them dire
 If the user provides an existing ExecPlan file, skip Phases 1–5 and go directly to Phase 6.
 
 **Actions**:
-1. Read the ExecPlan in full. If [PLANS.md](PLANS.md) has not been read in this session, read it now.
+1. Read the ExecPlan in full. If [PLANS.md](references/PLANS.md) has not been read in this session, read it now.
 2. Check the **Progress** section to determine its state:
    - If all items are checked and **Outcomes & Retrospective** is written, the plan is complete — ask the user to confirm their intent.
    - If the plan appears abandoned or superseded (e.g., Progress is empty, goal no longer matches), surface this to the user before proceeding.
@@ -114,9 +114,9 @@ If the user says "whatever you think is best", provide your recommendation and g
 **Trigger**: User has confirmed the chosen architecture approach from Phase 4.
 
 **Actions**:
-1. Read [PLANS.md](PLANS.md) in full to internalize the ExecPlan specification.
+1. Read [PLANS.md](references/PLANS.md) in full to internalize the ExecPlan specification.
 2. Determine the ExecPlan file path: `plans/<YYYY-MM-DD>-<feature-slug>.md` (create `plans/` if it does not exist).
-3. Write the ExecPlan strictly following the skeleton in [PLANS.md](PLANS.md). All sections must be present; sections not yet actionable should be explicitly stubbed (e.g., "To be filled during implementation") rather than omitted.
+3. Write the ExecPlan strictly following the skeleton in [PLANS.md](references/PLANS.md). All sections must be present; sections not yet actionable should be explicitly stubbed (e.g., "To be filled during implementation") rather than omitted.
 4. Tell the user the ExecPlan file path, summarize the key architecture decision and the top-level milestones, and ask for explicit approval to begin implementation. Do not proceed to Phase 6 until approved.
 
 ---
@@ -130,7 +130,7 @@ If the user says "whatever you think is best", provide your recommendation and g
 **Input**: The approved ExecPlan at `plans/<YYYY-MM-DD>-<feature-slug>.md`, confirmed with user at the end of Phase 5.
 
 **Actions**:
-1. Read the ExecPlan in full. If [PLANS.md](PLANS.md) has not been read in this session, read it now.
+1. Read the ExecPlan in full. If [PLANS.md](references/PLANS.md) has not been read in this session, read it now.
 2. Implement following the ExecPlan (Plan of Work + Concrete Steps).
 3. Keep code changes committed in **incremental, milestone-based commits** during execution. Update the ExecPlan **Review Scope** continuously during implementation.
 4. Keep the ExecPlan's **milestones and living sections (Progress, Surprises & Discoveries, Decision Log, Outcomes & Retrospective)** up to date as you execute. If the scope shifts, rewrite affected sections so the document remains coherent and self-contained.

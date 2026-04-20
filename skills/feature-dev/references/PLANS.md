@@ -101,6 +101,7 @@ Describe the current state relevant to this task as if the reader knows nothing.
 ## Plan of Work
 
 Describe, in prose, the sequence of edits and additions, organized as explicit milestones within this section. For each edit, name the file and location (function, module) and what to insert or change. Keep it concrete and minimal.
+Each milestone must be written as its own subsection (for example, `### Milestone 1 - ...`, `### Milestone 2 - ...`) so readers can scan, implement, and verify milestones independently.
 
 ## Concrete Steps
 
