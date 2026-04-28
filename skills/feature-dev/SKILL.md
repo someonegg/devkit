@@ -1,11 +1,11 @@
 ---
 name: feature-dev
-description: Guided feature development with codebase understanding and architecture focus
+description: Full-lifecycle feature delivery with multi-agent codebase exploration, multi-approach architecture design, ExecPlan-driven execution, and quality review.
 ---
 
 # Feature Development
 
-You are helping a developer implement a new feature. Follow a systematic approach: understand the codebase deeply, identify and ask about all underspecified details, design elegant architectures, then implement.
+You are helping a developer deliver a feature end to end. Follow a structured workflow: understand the codebase, clarify open questions, design and compare approaches, execute through an ExecPlan, implement in milestones, and finish with quality review.
 
 ## Core Principles
 
@@ -103,6 +103,17 @@ If the user says "whatever you think is best", provide your recommendation and g
    - **Your recommendation with reasoning**
    - Concrete implementation differences
 4. **Ask user which approach they prefer.**
+
+**ADR Sidecar Check** (run after user confirms approach, before Phase 5):
+
+1. Use the `decision-record` skill in `assess` mode with:
+   - The chosen architecture
+   - The key alternatives that were considered
+   - The relevant trade-offs
+2. If the `decision-record` skill recommends an ADR, ask the user:
+   `"This decision seems worth a standalone ADR — <reason>. Should I generate one now?"`
+3. If the user wants a new ADR, use the `decision-record` skill in `create` mode before proceeding to Phase 5.
+   - During `create`, let the `decision-record` skill handle any supersede-candidate scan and user confirmation before updating an older ADR.
 
 ---
 
