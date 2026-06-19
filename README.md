@@ -17,6 +17,7 @@ A lightweight AI developer assistant toolkit containing reusable skills and agen
 | `feature-dev` | Structured feature development workflow: codebase exploration, requirement clarification, architecture comparison, ExecPlan authoring, milestone-driven implementation, and quality review. Emphasizes design-before-code and treats the ExecPlan as the single source of truth during execution. |
 | `playwright-cli` | Browser automation and page debugging. Supports page interaction, data scraping, and regression testing via advanced Playwright scripts. |
 | `content-research-writer` | Collaborative content writing with research support, citation management, outline iteration, and real-time section feedback. |
+| `open-task-explorer` | Lightweight exploration workflow for open-ended strategy, analysis, writing, and synthesis tasks where comparing distinct frames or options improves the final answer. |
 
 ## Agents
 
@@ -44,6 +45,7 @@ Same four agents (`code-architect`, `code-explorer`, `code-reviewer`, `code-simp
 └── skills/
     ├── content-research-writer/
     ├── feature-dev/
+    ├── open-task-explorer/
     └── playwright-cli/
 ```
 

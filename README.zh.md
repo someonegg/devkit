@@ -17,6 +17,7 @@
 | `feature-dev` | 面向功能开发的结构化工作流：代码库探索、需求澄清、架构多方案对比、ExecPlan 编写、按里程碑实现与质量评审。强调"先设计后编码"，以 ExecPlan 作为执行期间的单一事实来源。 |
 | `playwright-cli` | 浏览器自动化与页面调试：页面交互、信息采集、回归验证，支持执行高级 Playwright 脚本。 |
 | `content-research-writer` | 协作式内容写作，提供研究支持、引用管理、大纲迭代与逐节实时反馈。 |
+| `open-task-explorer` | 面向开放式策略、分析、写作与综合任务的轻量探索流程，通过比较不同框架或选项来提升最终回答质量。 |
 
 ## Agents
 
@@ -44,6 +45,7 @@
 └── skills/
     ├── content-research-writer/
     ├── feature-dev/
+    ├── open-task-explorer/
     └── playwright-cli/
 ```
 
