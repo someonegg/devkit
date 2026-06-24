@@ -17,6 +17,7 @@
 | `feature-dev` | 面向功能开发的结构化工作流：代码库探索、需求澄清、架构多方案对比、ExecPlan 编写、按里程碑实现与质量评审。强调"先设计后编码"，以 ExecPlan 作为执行期间的单一事实来源。 |
 | `playwright-cli` | 浏览器自动化与页面调试：页面交互、信息采集、回归验证，支持执行高级 Playwright 脚本。 |
 | `content-research-writer` | 协作式内容写作，提供研究支持、引用管理、大纲迭代与逐节实时反馈。 |
+| `document-retrieval` | 轻量委派规则：当需要从明确给定的文档中检索有来源支撑的匹配内容时，触发 `document-retriever` subagent。 |
 | `open-task-explorer` | 面向开放式策略、分析、写作与综合任务的轻量探索流程，通过比较不同框架或选项来提升最终回答质量。 |
 
 ## Agents
@@ -28,11 +29,12 @@
 | `code-architect` | 分析现有代码模式，设计功能架构，输出包含文件清单、组件设计与构建顺序的实现蓝图。 |
 | `code-explorer` | 追踪执行路径、梳理架构层次，在新开发开始前深入理解现有功能。 |
 | `code-reviewer` | 审查代码中的 Bug、逻辑错误、安全漏洞与风格问题，仅报告高置信度问题。 |
+| `document-retriever` | 在明确给定的文档或 URL 中检索有来源支撑的匹配内容，返回来源位置、摘录、匹配原因与检索缺口，不做任务级判断。 |
 | `code-simplifier` | 在不改变行为的前提下，优化近期修改代码的可读性、一致性与可维护性。 |
 
 ### Codex (`codex/agents/`)
 
-同上四个 Agent（`code-architect`、`code-explorer`、`code-reviewer`、`code-simplifier`），针对 Codex 运行时配置。
+同上这些 Agent（`code-architect`、`code-explorer`、`code-reviewer`、`code-simplifier`、`document-retriever`），针对 Codex 运行时配置。
 
 ## 目录结构
 

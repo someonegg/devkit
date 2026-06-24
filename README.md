@@ -17,6 +17,7 @@ A lightweight AI developer assistant toolkit containing reusable skills and agen
 | `feature-dev` | Structured feature development workflow: codebase exploration, requirement clarification, architecture comparison, ExecPlan authoring, milestone-driven implementation, and quality review. Emphasizes design-before-code and treats the ExecPlan as the single source of truth during execution. |
 | `playwright-cli` | Browser automation and page debugging. Supports page interaction, data scraping, and regression testing via advanced Playwright scripts. |
 | `content-research-writer` | Collaborative content writing with research support, citation management, outline iteration, and real-time section feedback. |
+| `document-retrieval` | Lightweight dispatch rule for delegating focused lookup tasks to the `document-retriever` subagent when source-backed matches are needed from explicitly provided documents. |
 | `open-task-explorer` | Lightweight exploration workflow for open-ended strategy, analysis, writing, and synthesis tasks where comparing distinct frames or options improves the final answer. |
 
 ## Agents
@@ -28,11 +29,12 @@ A lightweight AI developer assistant toolkit containing reusable skills and agen
 | `code-architect` | Designs feature architectures by analyzing existing patterns, producing implementation blueprints with file lists, component designs, and build sequences. |
 | `code-explorer` | Traces execution paths and maps architecture layers to deeply understand an existing feature before new development begins. |
 | `code-reviewer` | Reviews code for bugs, logic errors, security vulnerabilities, and style issues, reporting only high-confidence findings. |
+| `document-retriever` | Searches explicitly provided documents or URLs for source-backed matches, returning source locations, snippets, match reasons, and retrieval gaps without making task-level judgments. |
 | `code-simplifier` | Refines recently modified code for clarity, consistency, and maintainability without changing behavior. |
 
 ### Codex (`codex/agents/`)
 
-Same four agents (`code-architect`, `code-explorer`, `code-reviewer`, `code-simplifier`) configured for the Codex runtime.
+Same agents (`code-architect`, `code-explorer`, `code-reviewer`, `code-simplifier`, `document-retriever`) configured for the Codex runtime.
 
 ## Directory Structure
 
