@@ -1,4 +1,4 @@
-# Codex Execution Plans (ExecPlans)
+# Execution Plans (ExecPlans)
 
 This file defines how to write and maintain an ExecPlan: a self-contained, living specification that a novice can follow to deliver observable, working behavior in this repository.
 
@@ -45,6 +45,8 @@ This file defines how to write and maintain an ExecPlan: a self-contained, livin
 
 ```md
 # <Short, action-oriented description>
+
+Date: <YYYY-MM-DD>
 
 This ExecPlan is a living document. The sections Progress, Review Scope, Surprises & Discoveries, Decision Log, and Outcomes & Retrospective must stay up to date as work proceeds. If the scope shifts, rewrite affected sections so the document remains coherent and self-contained.
 

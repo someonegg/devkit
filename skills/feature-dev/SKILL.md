@@ -1,187 +1,98 @@
 ---
 name: feature-dev
-description: Full-lifecycle feature delivery with multi-agent codebase exploration, multi-approach architecture design, ExecPlan-driven execution, and quality review.
+description: Deliver features end to end through multi-agent codebase exploration, competing architecture designs, ExecPlan-driven implementation, and quality review. Use only on explicit user request.
 ---
 
 # Feature Development
 
-You are helping a developer deliver a feature end to end. Follow a structured workflow: understand the codebase, clarify open questions, design and compare approaches, execute through an ExecPlan, implement in milestones, and finish with quality review.
+Deliver features through a structured workflow: understand the request and codebase, resolve open questions, compare architecture approaches, write an ExecPlan, implement by milestone, and complete a quality review.
 
-## Core Principles
+Invoking `feature-dev` authorizes use of the specialized subagents required by this workflow.
 
-- **Ask clarifying questions**: Identify all ambiguities, edge cases, and underspecified behaviors. Ask specific, concrete questions rather than making assumptions. Wait for user answers before proceeding with implementation. Ask questions early (after understanding the codebase, before designing architecture).
-- **Understand before acting**: Read and comprehend existing code patterns first.
-- **Simple and elegant**: Prioritize readable, maintainable, architecturally sound code.
-- **Use TodoWrite**: Track all progress throughout.
-- **ExecPlan as living document**: After architecture is confirmed, write and maintain an ExecPlan (see [PLANS.md](references/PLANS.md) for the full specification). The ExecPlan is the single source of truth for implementation progress, decisions, and outcomes.
+## Feature Packet
 
-## Subagent Assumption
+Create one feature packet per feature at `_features/<yyyy-mm-dd>-<feature-slug>/` containing:
 
-Assume specialized subagents are already registered and available. Use them directly by name when needed.
+- `plan.md`: The implementation ExecPlan, including milestones, concrete steps, validation, review scope, progress, decisions, and recovery guidance. Treat it as the authority for execution state.
 
----
+Freeze the packet after delivery and retain it only for traceability. Treat the code, tests, and durable ADRs as the authority for current behavior.
 
-## Resume Path (Interrupted Session)
+## Resume from an existing ExecPlan
 
-If the user provides an existing ExecPlan file, skip Phases 1–5 and go directly to Phase 6.
+If the user provides an existing ExecPlan:
 
-**Actions**:
-1. Read the ExecPlan in full. If [PLANS.md](references/PLANS.md) has not been read in this session, read it now.
-2. Check the **Progress** section to determine its state:
-   - If all items are checked and **Outcomes & Retrospective** is written, the plan is complete — ask the user to confirm their intent.
-   - If the plan appears abandoned or superseded (e.g., Progress is empty, goal no longer matches), surface this to the user before proceeding.
-   - Otherwise, treat it as in-progress and identify the last completed milestone and where to resume.
-3. Confirm with the user: summarize current progress and state the next step you intend to take.
-4. Proceed with Phase 6, Step 2 upon confirmation.
-
----
+1. Read it in full, plus [PLANS.md](references/PLANS.md) if needed.
+2. Inspect **Progress**. If the plan is complete, abandoned, or superseded, flag that; otherwise, identify the resume point.
+3. Summarize the state and proposed next step, then wait for confirmation.
+4. After confirmation, continue at Phase 6, Step 2.
 
 ## Phase 1: Discovery
 
-**Goal**: Understand what needs to be built.
-
-**Actions**:
-1. Create a checklist with all phases.
-2. If feature request is unclear, ask the user for:
-   - What problem they are solving
-   - What the feature should do
-   - Any constraints or requirements
-3. Summarize understanding and confirm with user.
-
----
+1. If the request is unclear, ask what problem the feature solves, what it should do, and which constraints or requirements apply.
+2. Summarize the request and confirm the understanding with the user.
 
 ## Phase 2: Codebase Exploration
 
-**Goal**: Understand relevant existing code and patterns at both high and low levels.
-
-**Actions**:
-1. Launch 2-3 `code-explorer` subagents in parallel. Each subagent should:
-   - Trace through the code comprehensively and focus on getting a comprehensive understanding of abstractions, architecture, and flow of control
-   - Target a different aspect of the codebase (for example: similar features, high-level understanding, architectural understanding, user experience)
-   - Include a list of 5-10 key files to read
-
-   **Example subagent prompts**:
-   - "Find features similar to [feature] and trace through their implementation comprehensively"
-   - "Map the architecture and abstractions for [feature area], tracing through the code comprehensively"
-   - "Analyze the current implementation of [existing feature/area], tracing through the code comprehensively"
-   - "Identify UI patterns, testing approaches, or extension points relevant to [feature]"
-
-2. Once subagents return, read all files identified by subagents to build deep understanding.
-3. Present comprehensive summary of findings and patterns discovered.
-
----
+1. Launch 2–3 `code-explorer` subagents in parallel with distinct perspectives, such as similar features, architecture and data flow, current behavior and extension points, or UI and testing patterns. Require each to trace its area end to end, explain patterns, boundaries, and integration points, and return 5–10 key files.
+2. Read every identified file and reconcile the findings into a detailed understanding.
+3. Present the relevant patterns, integration points, and constraints.
 
 ## Phase 3: Clarifying Questions
 
-**Goal**: Fill in gaps and resolve all ambiguities before designing.
-
-**CRITICAL**: This is one of the most important phases. DO NOT SKIP.
-
-**Actions**:
-1. Review the codebase findings and original feature request.
-2. Identify underspecified aspects: edge cases, error handling, integration points, scope boundaries, design preferences, backward compatibility, performance needs.
-3. **Present all questions to the user in a clear, organized list.**
-4. **Wait for answers before proceeding to architecture design.**
-
-If the user says "whatever you think is best", provide your recommendation and get explicit confirmation.
-
----
+1. Compare the request with the codebase findings and identify blocking ambiguities in behavior, edge cases, error handling, integration, scope, compatibility, design preferences, or performance.
+2. If any exist, present all questions in one organized list and wait for answers.
+3. Otherwise, state that no blocking questions remain and continue to Phase 4.
 
 ## Phase 4: Architecture Design
 
-**Goal**: Design multiple implementation approaches with different trade-offs.
+1. Launch 2–3 `code-architect` subagents in parallel. Prefer these focuses when applicable:
+   - **Risk-first containment**: Minimize change radius and maximize compatibility and rollback safety.
+   - **Evolutionary migration**: Improve the structure incrementally with controlled risk.
+   - **Target-state architecture**: Optimize for long-term maintainability and extensibility despite a larger initial change.
+2. Compare the approaches against the confirmed requirements, urgency, complexity, and team context.
+3. Present each approach's trade-offs and implementation differences, then give a reasoned recommendation.
+4. Ask the user to choose an approach.
 
-**Actions**:
-1. Launch 2-3 `code-architect` subagents in parallel with different focuses (prefer these three if all are applicable):
-   - Risk-first containment: smallest safe change radius, strongest rollback path, maximum behavioral compatibility
-   - Evolutionary migration: phased refactor/migration path that incrementally improves structure with controlled risk
-   - Target-state architecture: direct design for long-term maintainability and extensibility, accepting larger up-front change
-2. Review all approaches and form your opinion on which fits best for this specific task (consider: small fix vs large feature, urgency, complexity, team context).
-3. Present to user:
-   - Brief summary of each approach
-   - Trade-offs comparison
-   - **Your recommendation with reasoning**
-   - Concrete implementation differences
-4. **Ask user which approach they prefer.**
+### ADR Sidecar Check
 
-**ADR Sidecar Check** (run after user confirms approach, before Phase 5):
+After the user confirms an approach and before Phase 5:
 
-1. Use the `decision-record` skill in `assess` mode with:
-   - The chosen architecture
-   - The key alternatives that were considered
-   - The relevant trade-offs
-2. If the `decision-record` skill recommends an ADR, ask the user:
-   `"This decision seems worth a standalone ADR — <reason>. Should I generate one now?"`
-3. If the user wants a new ADR, use the `decision-record` skill in `create` mode before proceeding to Phase 5.
-   - During `create`, let the `decision-record` skill handle any supersede-candidate scan and user confirmation before updating an older ADR.
-
----
+1. Use the `decision-record` skill in `assess` mode with the chosen architecture, alternatives considered, and relevant trade-offs.
+2. If it recommends an ADR, ask: `This decision seems worth a standalone ADR — <reason>. Should I generate one now?`
+3. If the user agrees, use `decision-record` in `create` mode. Let that skill scan for supersede candidates and obtain confirmation before updating an older ADR.
 
 ## Phase 5: Write ExecPlan
 
-**Goal**: Persist the confirmed architecture as a self-contained, executable specification before any code is written.
-
-**Trigger**: User has confirmed the chosen architecture approach from Phase 4.
-
-**Actions**:
-1. Read [PLANS.md](references/PLANS.md) in full to internalize the ExecPlan specification.
-2. Determine the ExecPlan file path: `plans/<YYYY-MM-DD>-<feature-slug>.md` (create `plans/` if it does not exist).
-3. Write the ExecPlan strictly following the skeleton in [PLANS.md](references/PLANS.md). All sections must be present; sections not yet actionable should be explicitly stubbed (e.g., "To be filled during implementation") rather than omitted.
-4. Tell the user the ExecPlan file path, summarize the key architecture decision and the top-level milestones, and ask for explicit approval to begin implementation. Do not proceed to Phase 6 until approved.
-
----
+1. Read [PLANS.md](references/PLANS.md) in full.
+2. Write `_features/<yyyy-mm-dd>-<feature-slug>/plan.md` from its skeleton. Include every section and explicitly stub those not yet actionable.
+3. Present the plan path and top-level milestones.
+4. Wait for explicit approval before entering Phase 6.
+5. If the user requests changes, return to the earliest affected phase: Phase 3 for requirements or scope, Phase 4 for architecture, or Phase 5 for execution sequencing.
 
 ## Phase 6: Implementation
 
-**Goal**: Build the feature, keeping the ExecPlan current throughout.
-
-**DO NOT START WITHOUT USER APPROVAL**
-
-**Input**: The approved ExecPlan at `plans/<YYYY-MM-DD>-<feature-slug>.md`, confirmed with user at the end of Phase 5.
-
-**Actions**:
-1. Read the ExecPlan in full. If [PLANS.md](references/PLANS.md) has not been read in this session, read it now.
-2. For each milestone, launch one implementation subagent in sequence. In the prompt, provide the ExecPlan file path and target milestone ID/title, and tell the subagent to read the ExecPlan first. The ExecPlan is self-contained and authoritative.
-3. Use the ExecPlan as the source of truth. Implementation subagents must directly update the ExecPlan living sections for their milestone progress and results before handoff; the primary agent verifies consistency and completeness.
-4. After each milestone returns, integrate changes and run the best currently applicable validation. If full validation is not yet possible, record the gap and reason, and define concrete validation gates for subsequent milestones.
-5. Proceed through milestones autonomously — do not pause to ask the user for "next steps" between milestones.
-
-**Execution Requirements (Mandatory; applies to Primary + Implementation Subagents throughout Phase 6)**:
-- R1. Keep the ExecPlan's **milestones and living sections (Progress, Review Scope, Surprises & Discoveries, Decision Log, Outcomes & Retrospective)** up to date as execution proceeds. If the scope shifts, rewrite affected sections so the document remains coherent and self-contained.
-- R2. Keep code changes committed incrementally during execution. Update the ExecPlan **Review Scope** continuously during implementation.
-- R3. Write clean code. Add comments only where logic is non-obvious.
-
----
+1. Read the ExecPlan in full. Also read [PLANS.md](references/PLANS.md) if it has not been read in this session.
+2. For each milestone:
+   1. Launch one worker subagent with the ExecPlan path and milestone ID/title.
+   2. Require it to read the plan, implement the milestone, and update affected **living sections** before handoff.
+   3. Integrate and validate the changes. Record any validation gap and its later gate.
+   4. Commit incrementally, update the ExecPlan **Review Scope** accordingly.
+   5. Proceed through milestones autonomously without additional user approval.
 
 ## Phase 7: Quality Review
 
-**Goal**: Ensure code is simple, DRY, elegant, easy to read, and functionally correct.
-
-**Actions**:
-1. Read the ExecPlan **Review Scope** first and derive the exact review target from it (listed commits + listed uncommitted paths). If this section is missing or stale, update it before launching reviewers.
-2. Launch 1 `code-simplifier` subagent once against the current **Review Scope**, complete resulting simplification decisions, and record accepted or rejected simplifications in the ExecPlan **Decision Log**.
-3. **Only after Step 2 is fully completed**, launch 3 `code-reviewer` subagents in parallel with different focuses:
-   - Simplicity/DRY/elegance
-   - Bugs/functional correctness
-   - Project conventions/abstractions
-4. Consolidate findings and identify highest severity issues that you recommend fixing.
-5. **Present findings to user and ask what they want to do** (fix now, fix later, or proceed as-is).
-6. Address issues based on user decision. Record any fixes or deliberate deferrals in the ExecPlan **Decision Log**. Update the **Progress** checklist for any new work items completed.
-
----
+1. Make **Review Scope** accurately list every commit and uncommitted path to review.
+2. Launch one `code-simplifier` subagent against that scope. Resolve its suggestions, validate edits, record decisions in **Decision Log**, and refresh **Review Scope**.
+3. Then launch three `code-reviewer` subagents in parallel with these focuses:
+   - Simplicity, DRYness, and elegance.
+   - Bugs and functional correctness.
+   - Project conventions and abstractions.
+4. Consolidate the findings and recommend the highest-severity issues to fix.
+5. Present the findings and ask whether to fix them now, defer them, or proceed as-is.
+6. Apply the decision. Validate edits, record fixes and deferrals in **Decision Log**, and update **Progress**.
 
 ## Phase 8: Summary
 
-**Goal**: Document what was accomplished, closing out the ExecPlan.
-
-**Actions**:
-1. Reconcile the ExecPlan **Progress** checklist and TodoWrite against actual completion state; mark completed items, note any deferred items explicitly.
-2. Write the **Outcomes & Retrospective** section of the ExecPlan: what was achieved, what remains, lessons learned, comparison against the original Purpose.
-3. Summarize to the user:
-   - What was built
-   - Key decisions made
-   - Files modified
-   - ExecPlan location for future reference
-   - Suggested next steps
-
----
+1. Reconcile **Progress** with the actual completion state, including deferrals.
+2. Complete **Outcomes & Retrospective** with achievements, remaining work, lessons learned, and comparison with the original Purpose.
+3. Summarize what was built, key decisions, modified files, the ExecPlan location, and suggested next steps.
