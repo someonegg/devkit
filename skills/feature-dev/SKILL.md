@@ -1,77 +1,104 @@
 ---
 name: feature-dev
-description: Deliver features end to end through multi-agent codebase exploration, competing architecture designs, ExecPlan-driven implementation, and quality review. Use only on explicit user request.
+description: Deliver features end to end through uncertainty-driven exploration, competing architecture designs, ExecPlan-driven implementation, and quality review. Use only on explicit user request.
 ---
 
 # Feature Development
 
 Deliver features through a structured workflow: understand the request and codebase, resolve open questions, compare architecture approaches, write an ExecPlan, implement by milestone, and complete a quality review.
 
-Invoking `feature-dev` authorizes use of the specialized subagents required by this workflow.
+Invoking `feature-dev` authorizes use of the specialized subagents required by this workflow and the creation of code commits.
 
 ## Feature Packet
 
 Create one feature packet per feature at `_features/<yyyy-mm-dd>-<feature-slug>/` containing:
 
 - `plan.md`: The implementation ExecPlan, including milestones, concrete steps, validation, review scope, progress, decisions, and recovery guidance. Treat it as the authority for execution state.
+- `uncertainty.md`: An append-only record with one entry for each newly completed, decision-relevant uncertainty validation loop.
 
-Freeze the packet after delivery and retain it only for traceability. Treat the code, tests, and durable ADRs as the authority for current behavior.
+After delivery, retain the packet only for traceability. Treat the code, tests, and durable ADRs as the authority for current behavior.
 
 ## Resume from an existing ExecPlan
 
 If the user provides an existing ExecPlan:
 
-1. Read it in full, plus [PLANS.md](references/PLANS.md) if needed.
+1. Read it in full. Also read [PLANS.md](references/PLANS.md) if it has not been read in this session.
 2. Inspect **Progress**. If the plan is complete, abandoned, or superseded, flag that; otherwise, identify the resume point.
 3. Summarize the state and proposed next step, then wait for confirmation.
-4. After confirmation, continue at Phase 6, Step 2.
 
-## Phase 1: Discovery
+## Phase 1: Problem Framing
 
-1. If the request is unclear, ask what problem the feature solves, what it should do, and which constraints or requirements apply.
-2. Summarize the request and confirm the understanding with the user.
+1. Capture the desired observable outcome, motivation, non-goals, known constraints, stated preferences, and initial unknowns.
+2. Ask only for missing intent, scope, preference, or authority that is necessary to guide exploration. Do not ask the user for facts discoverable from the repository.
+3. Present the problem frame and confirm it with the user. Finish when the next questions to investigate are clear, not when all uncertainty is gone.
 
 ## Phase 2: Codebase Exploration
 
-1. Launch 2–3 `code-explorer` subagents in parallel with distinct perspectives, such as similar features, architecture and data flow, current behavior and extension points, or UI and testing patterns. Require each to trace its area end to end, explain patterns, boundaries, and integration points, and return 5–10 key files.
-2. Read every identified file and reconcile the findings into a detailed understanding.
-3. Present the relevant patterns, integration points, and constraints.
+1. Prioritize unknowns that could change behavior, scope, architecture, safety, compatibility, or acceptance. Route user preferences to Phase 3; investigate repository facts directly.
+2. Launch 2–3 `code-explorer` subagents in parallel.
+   - Assign each a distinct decision-relevant unknown.
+   - Include a blindspot or counterexample perspective across the assignments.
+   - Require each to return claims, supporting evidence, boundaries or counterexamples, confidence with rationale, design implications, newly exposed unknowns, and key files.
+3. Read the files that support material claims, reconcile conflicting findings, and run a targeted second pass when a high-impact uncertainty remains resolvable through inspection.
+4. Present established facts, evidence, constraints, and remaining unknowns. Finish when decision-critical repository facts are resolved or explicitly bounded.
 
-## Phase 3: Clarifying Questions
+## Phase 3: Uncertainty Synthesis
 
-1. Compare the request with the codebase findings and identify blocking ambiguities in behavior, edge cases, error handling, integration, scope, compatibility, design preferences, or performance.
-2. If any exist, present all questions in one organized list and wait for answers.
-3. Otherwise, state that no blocking questions remain and continue to Phase 4.
+1. Classify the findings as established facts, user decisions, open empirical unknowns, or accepted assumptions.
+2. Resolve empirical unknowns with read-only probes or disposable prototypes. Do not modify tracked implementation files before ExecPlan approval; creating and revising the feature packet is allowed. Return to Phase 2 when more repository evidence is needed.
+3. Ask the smallest set of user questions whose answers could change behavior, scope, public interfaces, data, security, compatibility, or architecture. Batch independent questions; sequence dependent ones.
+4. Present the resolved facts and remaining assumptions. Finish when high-impact, hard-to-reverse unknowns are resolved and every remaining uncertainty is reversible, isolated, or assigned an explicit validation gate.
+
+### Uncertainty Record
+
+After Phase 3 finishes and before Phase 4:
+
+1. Append one entry to `_features/<yyyy-mm-dd>-<feature-slug>/uncertainty.md` for each decision-relevant unknown whose validation loop was completed during the current pass through Phases 1–3.
+2. Never edit or delete existing entries. When a result is superseded, append a correction that references the earlier entry.
+
+Use this template for each entry:
+
+```md
+## <YYYY-MM-DD HH:MMZ> — <unknown>
+
+- Unknown: <the decision-relevant question>
+- Actions: <the exploration and validation performed>
+- Evidence: <the supporting repository evidence, probe results, or user input>
+- Outcome: <what was established or decided>
+- User decision: <the relevant choice, or None>
+- Status: <resolved | accepted assumption | validation gate>
+- Implication: <the effect on behavior, scope, interfaces, compatibility, or architecture>
+```
 
 ## Phase 4: Architecture Design
 
-1. Launch 2–3 `code-architect` subagents in parallel. Prefer these focuses when applicable:
-   - **Risk-first containment**: Minimize change radius and maximize compatibility and rollback safety.
-   - **Evolutionary migration**: Improve the structure incrementally with controlled risk.
-   - **Target-state architecture**: Optimize for long-term maintainability and extensibility despite a larger initial change.
-2. Compare the approaches against the confirmed requirements, urgency, complexity, and team context.
-3. Present each approach's trade-offs and implementation differences, then give a reasoned recommendation.
-4. Ask the user to choose an approach.
-
-### ADR Sidecar Check
-
-After the user confirms an approach and before Phase 5:
-
-1. Use the `decision-record` skill in `assess` mode with the chosen architecture, alternatives considered, and relevant trade-offs.
-2. If it recommends an ADR, ask: `This decision seems worth a standalone ADR — <reason>. Should I generate one now?`
-3. If the user agrees, use `decision-record` in `create` mode. Let that skill scan for supersede candidates and obtain confirmation before updating an older ADR.
+1. Give all architecture subagents the same design brief: the problem frame, evidence-backed repository facts, user decisions, non-goals, compatibility boundaries, and remaining assumptions.
+2. Launch two `code-architect` subagents in parallel.
+   - Assign one a minimal, reversible design and the other an evolutionary or target-state design.
+   - Require each to identify its thesis, changed and preserved boundaries, supporting evidence, assumptions, falsifying evidence, failure modes, reversibility, migration and rollback, validation strategy, and remaining unknowns.
+3. After both designs return, launch a third `code-architect` with the shared brief and both complete proposals. Require it to critique their shared assumptions, contradictions, missing evidence, and failure modes.
+4. If the choice depends on a resolvable empirical unknown, return to Phase 2 or 3 instead of asking the user to choose without evidence.
+5. Compare requirement fit, uncertainty exposure, cost of being wrong, reversibility, change radius, and long-term trade-offs. Present a reasoned recommendation and ask the user to confirm the recommended direction and its trade-offs, or choose another approach.
 
 ## Phase 5: Write ExecPlan
 
 1. Read [PLANS.md](references/PLANS.md) in full.
 2. Write `_features/<yyyy-mm-dd>-<feature-slug>/plan.md` from its skeleton. Include every section and explicitly stub those not yet actionable.
 3. Present the plan path and top-level milestones.
-4. Wait for explicit approval before entering Phase 6.
-5. If the user requests changes, return to the earliest affected phase: Phase 3 for requirements or scope, Phase 4 for architecture, or Phase 5 for execution sequencing.
+4. Wait for user explicit approval.
+5. If the user requests changes, return to the earliest affected phase: Phase 1 for requirements or scope, Phase 4 for architecture, or Phase 5 for execution sequencing.
+
+### ADR Record
+
+After the user explicitly approves the ExecPlan and before implementation:
+
+1. Use the `decision-record` skill in `assess` mode with the chosen architecture, alternatives considered, and relevant trade-offs.
+2. If it recommends an ADR, ask: `This decision seems worth a standalone ADR — <reason>. Should I generate one now?`
+3. If the user agrees, use `decision-record` in `create` mode. Let that skill scan for supersede candidates and obtain confirmation before updating an older ADR.
 
 ## Phase 6: Implementation
 
-1. Read the ExecPlan in full. Also read [PLANS.md](references/PLANS.md) if it has not been read in this session.
+1. If not already read in this session, read the ExecPlan and [PLANS.md](references/PLANS.md) in full.
 2. For each milestone:
    1. Launch one worker subagent with the ExecPlan path and milestone ID/title.
    2. Require it to read the plan, implement the milestone, and update affected **living sections** before handoff.
