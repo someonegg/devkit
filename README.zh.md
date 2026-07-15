@@ -14,11 +14,12 @@
 
 | 技能 | 说明 |
 |------|------|
-| `feature-dev` | 面向功能开发的结构化工作流：代码库探索、需求澄清、架构多方案对比、ExecPlan 编写、按里程碑实现与质量评审。强调"先设计后编码"，以 ExecPlan 作为执行期间的单一事实来源。 |
-| `playwright-cli` | 浏览器自动化与页面调试：页面交互、信息采集、回归验证，支持执行高级 Playwright 脚本。 |
-| `content-research-writer` | 协作式内容写作，提供研究支持、引用管理、大纲迭代与逐节实时反馈。 |
-| `document-retrieval` | 轻量委派规则：当需要从明确给定的文档中检索有来源支撑的匹配内容时，触发 `document-retriever` subagent。 |
-| `open-task-explorer` | 面向开放式策略、分析、写作与综合任务的轻量探索流程，通过比较不同框架或选项来提升最终回答质量。 |
+| `content-research-writer` | 协作式研究与写作支持，涵盖大纲设计、有来源支撑的引用、内容起草与逐节反馈。 |
+| `decision-record` | 评估技术决策是否值得单独记录为 ADR，并按照项目的 MADR 约定创建或更新 ADR 文件。 |
+| `document-retrieval` | 将针对较长或数量较多的明确给定文档或 URL 的定向检索委派给 `document-retriever` subagent，在不将完整来源载入主上下文的情况下返回带来源位置的匹配结果。 |
+| `feature-dev` | 通过面向不确定性的代码库探索、多种架构方案比较、经批准的 ExecPlan、按里程碑实现与质量评审，端到端交付功能。仅在用户明确要求时使用。 |
+| `open-task-explorer` | 针对开放式任务探索并比较不同框架、选项或草稿，再综合形成更完善的结果。仅在用户明确要求时使用。 |
+| `playwright-cli` | 以任务为先的浏览器自动化，适用于页面交互、调试、有状态工作流与 Playwright 测试执行。 |
 
 ## Agents
 
@@ -26,30 +27,15 @@
 
 | Agent | 说明 |
 |-------|------|
-| `code-architect` | 分析现有代码模式，设计功能架构，输出包含文件清单、组件设计与构建顺序的实现蓝图。 |
-| `code-explorer` | 追踪执行路径、梳理架构层次，在新开发开始前深入理解现有功能。 |
-| `code-reviewer` | 审查代码中的 Bug、逻辑错误、安全漏洞与风格问题，仅报告高置信度问题。 |
-| `document-retriever` | 在明确给定的文档或 URL 中检索有来源支撑的匹配内容，返回来源位置、摘录、匹配原因与检索缺口，不做任务级判断。 |
-| `code-simplifier` | 在不改变行为的前提下，优化近期修改代码的可读性、一致性与可维护性。 |
+| `code-architect` | 分析现有代码库的模式与约定，输出可直接用于实施的功能架构蓝图，涵盖文件、组件、数据流与构建顺序。 |
+| `code-explorer` | 沿执行路径、架构层、模式、抽象与依赖关系追踪现有功能，为后续开发提供依据。 |
+| `code-reviewer` | 审查代码缺陷、安全漏洞、质量问题及违反项目约定之处，同时过滤低置信度问题。 |
+| `code-simplifier` | 在严格保持行为不变的前提下，优化近期修改代码的清晰度、一致性与可维护性。 |
+| `document-retriever` | 在明确给定的文档或 URL 中查找有来源支撑的匹配内容，返回来源位置、摘录、匹配原因与检索缺口，不做任务级判断。 |
 
 ### Codex (`codex/agents/`)
 
-同上这些 Agent（`code-architect`、`code-explorer`、`code-reviewer`、`code-simplifier`、`document-retriever`），针对 Codex 运行时配置。
-
-## 目录结构
-
-```text
-.
-├── claude/
-│   └── agents/
-├── codex/
-│   └── agents/
-└── skills/
-    ├── content-research-writer/
-    ├── feature-dev/
-    ├── open-task-explorer/
-    └── playwright-cli/
-```
+通过 Codex 专用的 TOML 配置提供与上文相同的五种 Agent 角色。
 
 ## 安装
 
