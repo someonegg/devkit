@@ -1,6 +1,6 @@
 ---
 name: feature-dev
-description: Deliver features end to end through uncertainty-driven exploration, competing architecture designs, ExecPlan-driven implementation, and quality review. Use only on explicit user request.
+description: Deliver features end to end through uncertainty-driven exploration, competing architecture designs, ExecPlan-driven implementation, and quality review. Use only when the user explicitly requests `feature-dev` by name. Never infer its use from the task.
 ---
 
 # Feature Development

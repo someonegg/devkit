@@ -15,42 +15,16 @@ Run a minimal, reliable loop first:
 Default mode is headless. If human interaction is needed (for example manual click, CAPTCHA, or login), open the browser in headed mode.
 
 ```bash
-# 1) Open browser and navigate
-# Headless (default, no visible browser window)
-playwright-cli open https://example.com
-# Headed (visible browser window for manual interaction)
-playwright-cli open https://example.com --headed
-
-# 2) Capture refs (e1, e2, ...)
-playwright-cli snapshot
-
-# 3) Interact using refs from snapshot
-playwright-cli click e1
-playwright-cli fill e2 "hello"
-
-# 4) Verify result
-playwright-cli snapshot
-
-# 5) Cleanup
-playwright-cli close
+# Headless by default; add --headed when manual interaction is required.
+playwright-cli -s=quickstart open https://demo.playwright.dev/todomvc
+playwright-cli -s=quickstart snapshot
+playwright-cli -s=quickstart fill "getByRole('textbox', { name: 'What needs to be done?' })" "hello"
+playwright-cli -s=quickstart press Enter
+playwright-cli -s=quickstart snapshot
+playwright-cli -s=quickstart close
 ```
 
-If `playwright-cli` is not available globally, use `npx playwright-cli` for all commands.
-
-## Core commands (start here)
-
-```bash
-playwright-cli open https://example.com
-playwright-cli goto https://playwright.dev
-playwright-cli snapshot
-playwright-cli click e3
-playwright-cli fill e5 "user@example.com"
-playwright-cli press Enter
-playwright-cli screenshot --filename=page.png
-playwright-cli run-code "async page => await page.context().grantPermissions(['geolocation'])"
-playwright-cli run-code --filename=script.js
-playwright-cli close
-```
+If `playwright-cli` is unavailable globally, use `npx --package=@playwright/cli playwright-cli <command>`.
 
 ## Element targeting rules
 
@@ -71,17 +45,13 @@ playwright-cli click "getByTestId('submit-button')"
 
 ## Session quick examples
 
-If there is any chance of concurrent commands or parallel tasks, use a named session via `-s=<name>`. Do not share the default session across concurrent runs.
+When concurrency is possible, use a task-unique session via `-s=<name>` and close only that session. Example session names are placeholders.
 
 ```bash
-# Named isolated session
 playwright-cli -s=auth open https://app.example.com/login
 playwright-cli -s=auth snapshot
 playwright-cli -s=auth close
-
-# List and cleanup
 playwright-cli list
-playwright-cli close-all
 ```
 
 ## Task router (choose by goal)

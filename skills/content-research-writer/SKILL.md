@@ -1,6 +1,6 @@
 ---
 name: content-research-writer
-description: Research and refine long-form content through source gathering, citations, outlining, hook development, section-by-section feedback, and voice-preserving edits. Use only on explicit user request.
+description: Research and refine long-form content through source gathering, citations, outlining, hook development, section-by-section feedback, and voice-preserving edits. Use only when the user explicitly requests `content-research-writer` by name. Never infer its use from the task.
 ---
 
 # Content Research Writer

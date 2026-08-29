@@ -14,7 +14,7 @@ playwright-cli route "**/*.jpg" --status=404
 # Remove headers from outgoing requests
 playwright-cli route "**/*" --remove-header=cookie,authorization
 
-# Inspect and cleanup
+# Inspect and remove routes
 playwright-cli route-list
 playwright-cli unroute "**/api/users"
 playwright-cli unroute
@@ -35,13 +35,14 @@ Conditional login response:
 
 ```bash
 playwright-cli run-code "async page => {
-  await page.route('**/api/login', route => {
+  await page.route('**/api/login', async route => {
     const body = route.request().postDataJSON();
-    if (body.username === 'admin') {
-      route.fulfill({ body: JSON.stringify({ token: 'mock-token' }) });
-    } else {
-      route.fulfill({ status: 401, body: JSON.stringify({ error: 'Invalid' }) });
-    }
+    const allowed = body?.username === 'admin';
+    await route.fulfill({
+      status: allowed ? 200 : 401,
+      contentType: 'application/json',
+      body: JSON.stringify(allowed ? { token: 'mock-token' } : { error: 'Invalid' }),
+    });
   });
 }"
 ```
@@ -62,10 +63,12 @@ playwright-cli run-code "async page => {
 ## Tracing
 
 ```bash
-playwright-cli tracing-start
-playwright-cli open https://example.com
-playwright-cli click e1
-playwright-cli tracing-stop
+playwright-cli -s=trace open about:blank
+playwright-cli -s=trace tracing-start
+playwright-cli -s=trace goto https://example.com
+playwright-cli -s=trace click "getByRole('link', { name: 'Learn more' })"
+playwright-cli -s=trace tracing-stop
+playwright-cli -s=trace close
 ```
 
 Use tracing when you need DOM snapshots, network waterfall, console output, and timing.
@@ -73,11 +76,13 @@ Use tracing when you need DOM snapshots, network waterfall, console output, and 
 ## Video recording
 
 ```bash
-playwright-cli open https://example.com
-playwright-cli video-start recordings/demo.webm
-playwright-cli video-chapter "Login" --description="Sign in flow" --duration=2000
-playwright-cli snapshot
-playwright-cli video-stop
+playwright-cli -s=video open about:blank
+playwright-cli -s=video video-start .playwright-cli/recordings/demo.webm
+playwright-cli -s=video goto https://example.com
+playwright-cli -s=video video-chapter "Example page" --description="Page walkthrough" --duration=2000
+playwright-cli -s=video snapshot
+playwright-cli -s=video video-stop
+playwright-cli -s=video close
 ```
 
 Use video when you need visual proof, demo clips, or artifact sharing.
@@ -90,7 +95,7 @@ Use video when you need visual proof, demo clips, or artifact sharing.
 | Human-readable demo/proof-of-work | Video |
 | Fast one-frame evidence | Screenshot |
 
-## Storage housekeeping
+## Artifact housekeeping
 
 - Traces and videos can become large quickly.
 - Clean old artifacts in automation jobs.

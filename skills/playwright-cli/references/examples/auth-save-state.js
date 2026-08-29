@@ -4,6 +4,6 @@ async page => {
   await page.getByRole('textbox', { name: 'Password' }).fill('secret');
   await page.getByRole('button', { name: 'Sign in' }).click();
   await page.waitForURL('**/dashboard');
-  await page.context().storageState({ path: 'auth.json' });
-  return 'saved auth.json';
+  await page.context().storageState({ path: '.playwright-cli/auth.auth-state.json' });
+  return 'saved .playwright-cli/auth.auth-state.json';
 }

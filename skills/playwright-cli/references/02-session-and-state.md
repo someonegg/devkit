@@ -5,40 +5,29 @@ Use named sessions for isolation and use state commands for reusable authenticat
 ## Session isolation
 
 ```bash
-# Session-scoped commands
 playwright-cli -s=auth open https://app.example.com/login
 playwright-cli -s=auth snapshot
 playwright-cli -s=auth close
-
-# Multi-session cleanup
 playwright-cli list
-playwright-cli close-all
-playwright-cli kill-all
 ```
 
-When commands may run concurrently, always set `-s=<name>`.
+When commands may run concurrently, use a task-unique `-s=<name>` and close only that session.
 
 ## Session configuration
 
 ```bash
-playwright-cli open https://example.com --browser=firefox
-playwright-cli open https://example.com --headed
-playwright-cli open https://example.com --persistent
-playwright-cli open https://example.com --profile=/path/to/profile
-playwright-cli open https://example.com --config=.playwright/my-cli.json
-```
-
-Default session name via env var:
-
-```bash
-export PLAYWRIGHT_CLI_SESSION="mysession"
+playwright-cli -s=config open https://example.com --browser=firefox
+playwright-cli -s=config open https://example.com --headed
+playwright-cli -s=config open https://example.com --persistent
+playwright-cli -s=config open https://example.com --profile=/path/to/profile
+playwright-cli -s=config open https://example.com --config=.playwright/my-cli.json
 ```
 
 ## State save and restore
 
 ```bash
-playwright-cli state-save auth.json
-playwright-cli state-load auth.json
+playwright-cli -s=auth state-save .playwright-cli/auth.auth-state.json
+playwright-cli -s=auth state-load .playwright-cli/auth.auth-state.json
 ```
 
 Use this for login reuse across runs.
@@ -55,11 +44,11 @@ Cookie filter and options examples:
 
 ```bash
 # Filter by domain or path
-playwright-cli cookie-list --domain=example.com
-playwright-cli cookie-list --path=/api
+playwright-cli -s=auth cookie-list --domain=example.com
+playwright-cli -s=auth cookie-list --path=/api
 
 # Set with options
-playwright-cli cookie-set session abc123 --domain=example.com --path=/ --httpOnly --secure --sameSite=Lax
+playwright-cli -s=auth cookie-set session abc123 --domain=example.com --path=/ --httpOnly --secure --sameSite=Lax
 ```
 
 ## IndexedDB
@@ -67,17 +56,22 @@ playwright-cli cookie-set session abc123 --domain=example.com --path=/ --httpOnl
 List databases:
 
 ```bash
-playwright-cli run-code "async page => page.evaluate(async () => indexedDB.databases())"
+playwright-cli -s=auth run-code "async page => page.evaluate(async () => indexedDB.databases())"
 ```
 
 Delete database:
 
 ```bash
-playwright-cli run-code "async page => page.evaluate(() => indexedDB.deleteDatabase('myDatabase'))"
+playwright-cli -s=auth run-code "async page => page.evaluate(() => new Promise((resolve, reject) => {
+  const request = indexedDB.deleteDatabase('myDatabase');
+  request.onsuccess = () => resolve('deleted');
+  request.onerror = () => reject(request.error);
+  request.onblocked = () => reject(new Error('delete blocked'));
+}))"
 ```
 
 ## Security
 
 - Do not commit state files with auth tokens.
-- Add `*.auth-state.json` to `.gitignore`.
-- Delete state files after automation.
+- Store them under `.playwright-cli/` and ignore both `.playwright-cli/` and `*.auth-state.json`.
+- Delete them when no longer needed.

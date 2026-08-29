@@ -1,23 +1,6 @@
 # Workflow and Tests
 
-Use this page for day-to-day execution: open a page, inspect, interact, verify, then convert findings into tests.
-
-## 60-second loop
-
-```bash
-playwright-cli open https://example.com
-playwright-cli snapshot
-playwright-cli click e1
-playwright-cli fill e2 "hello"
-playwright-cli snapshot
-playwright-cli close
-```
-
-If manual interaction is required (login, captcha, manual click), use:
-
-```bash
-playwright-cli open https://example.com --headed
-```
+Use this page to turn browser exploration into tests and debug failing Playwright tests.
 
 ## Generate test code while exploring
 
@@ -39,24 +22,31 @@ test('login flow', async ({ page }) => {
 ## Run tests
 
 ```bash
-PLAYWRIGHT_HTML_OPEN=never npx playwright test
-PLAYWRIGHT_HTML_OPEN=never npm run special-test-command
+npx playwright test
 ```
+
+Use the project's existing test command when it defines one.
 
 ## Debug a failing test with `playwright-cli`
 
 ```bash
-# 1) Start paused test in background
-PLAYWRIGHT_HTML_OPEN=never npx playwright test --debug=cli > .playwright-debug.log 2>&1 &
+npx playwright test --debug=cli
+```
 
-# 2) Wait until log prints "Debugging Instructions" and session id (example: tw-abcdef)
-tail -f .playwright-debug.log
+The test pauses and prints a `Debugging Instructions` section containing the exact attach command and a generated session id, for example:
 
-# 3) Attach and inspect live state
+```bash
 playwright-cli attach tw-abcdef
 ```
 
-After patching code, stop the background run and rerun tests.
+Use that generated id for subsequent commands:
+
+```bash
+playwright-cli -s=tw-abcdef snapshot
+playwright-cli -s=tw-abcdef detach
+```
+
+Keep the test running while inspecting. Detach the CLI session when finished, then stop the test.
 
 ## Practical rules
 

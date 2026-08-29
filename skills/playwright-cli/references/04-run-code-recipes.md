@@ -120,4 +120,4 @@ playwright-cli eval "el => getComputedStyle(el).display" e7
 ## Long-form examples
 
 - [auth-save-state.js](examples/auth-save-state.js) — Full login flow that saves storage state to a file for reuse with `state-load`.
-- [video-overlay-demo.js](examples/video-overlay-demo.js) — Demonstrates `page.screencast` HTML overlay support (injecting custom annotations into video frames). 
+- [video-overlay-demo.js](examples/video-overlay-demo.js) — Demonstrates `page.screencast` HTML overlay support (injecting custom annotations into video frames).

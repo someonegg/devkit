@@ -16,7 +16,6 @@
 |------|------|
 | `content-research-writer` | 协作式研究与写作支持，涵盖大纲设计、有来源支撑的引用、内容起草与逐节反馈。 |
 | `decision-record` | 评估技术决策是否值得单独记录为 ADR，并按照项目的 MADR 约定创建或更新 ADR 文件。 |
-| `document-retrieval` | 将针对较长或数量较多的明确给定文档或 URL 的定向检索委派给 `document-retriever` subagent，在不将完整来源载入主上下文的情况下返回带来源位置的匹配结果。 |
 | `feature-dev` | 通过面向不确定性的代码库探索、多种架构方案比较、经批准的 ExecPlan、按里程碑实现与质量评审，端到端交付功能。仅在用户明确要求时使用。 |
 | `open-task-explorer` | 针对开放式任务探索并比较不同框架、选项或草稿，再综合形成更完善的结果。仅在用户明确要求时使用。 |
 | `playwright-cli` | 以任务为先的浏览器自动化，适用于页面交互、调试、有状态工作流与 Playwright 测试执行。 |
