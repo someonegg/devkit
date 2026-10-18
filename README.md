@@ -30,7 +30,6 @@ A lightweight AI developer assistant toolkit containing reusable skills and agen
 | `code-explorer` | Traces existing features through their execution paths, architecture layers, patterns, abstractions, and dependencies to inform new development. |
 | `code-reviewer` | Reviews code for defects, security vulnerabilities, quality issues, and violations of project conventions while filtering out low-confidence findings. |
 | `code-simplifier` | Refines recently modified code for clarity, consistency, and maintainability while preserving exact behavior. |
-| `document-retriever` | Finds source-backed matches within explicitly provided documents or URLs, returning locations, snippets, match reasons, and retrieval gaps without making task-level judgments. |
 
 ### Codex (`codex/agents/`)
 

@@ -14,7 +14,7 @@ Invoking `feature-dev` authorizes use of the specialized subagents required by t
 Create one feature packet per feature at `_features/<yyyy-mm-dd>-<feature-slug>/` containing:
 
 - `plan.md`: The implementation ExecPlan, including milestones, concrete steps, validation, review scope, progress, decisions, and recovery guidance. Treat it as the authority for execution state.
-- `uncertainty.md`: An append-only record with one entry for each newly completed, decision-relevant uncertainty validation loop.
+- `uncertainty.md`: An append-only record of decision-relevant uncertainty resolutions, accepted assumptions, and validation gates.
 
 After delivery, retain the packet only for traceability. Treat the code, tests, and durable ADRs as the authority for current behavior.
 
@@ -53,7 +53,7 @@ If the user provides an existing ExecPlan:
 
 After Phase 3 finishes and before Phase 4:
 
-1. Append one entry to `_features/<yyyy-mm-dd>-<feature-slug>/uncertainty.md` for each decision-relevant unknown whose validation loop was completed during the current pass through Phases 1–3.
+1. Append one entry to `_features/<yyyy-mm-dd>-<feature-slug>/uncertainty.md` for each decision-relevant unknown resolved or carried forward as an accepted assumption or validation gate during the current pass through Phases 1–3.
 2. Never edit or delete existing entries. When a result is superseded, append a correction that references the earlier entry.
 
 Use this template for each entry:
@@ -83,7 +83,7 @@ Use this template for each entry:
 ## Phase 5: Write ExecPlan
 
 1. Read [PLANS.md](references/PLANS.md) in full.
-2. Write `_features/<yyyy-mm-dd>-<feature-slug>/plan.md` from its skeleton. Include every section and explicitly stub those not yet actionable.
+2. Write `_features/<yyyy-mm-dd>-<feature-slug>/plan.md` from its skeleton. Include every section and explicitly stub those not yet actionable. Carry forward all still-relevant assumptions and validation gates from exploration and design; specify when each gate runs, its pass criteria, and what to do if it fails. Keep historical evidence in `uncertainty.md` while making the plan self-contained.
 3. Present the plan path and top-level milestones.
 4. Wait for user explicit approval.
 5. If the user requests changes, return to the earliest affected phase: Phase 1 for requirements or scope, Phase 4 for architecture, or Phase 5 for execution sequencing.
@@ -94,7 +94,7 @@ After the user explicitly approves the ExecPlan and before implementation:
 
 1. Use the `decision-record` skill in `assess` mode with the chosen architecture, alternatives considered, and relevant trade-offs.
 2. If it recommends an ADR, ask: `This decision seems worth a standalone ADR — <reason>. Should I generate one now?`
-3. If the user agrees, use `decision-record` in `create` mode. Let that skill scan for supersede candidates and obtain confirmation before updating an older ADR.
+3. If the user agrees, use `decision-record` in `create` mode and follow its replacement authorization rules.
 
 ## Phase 6: Implementation
 

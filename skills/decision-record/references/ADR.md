@@ -1,96 +1,65 @@
-# Architecture Decision Records (MADR)
+# Architecture Decision Records
 
-This file defines how to evaluate, create, and maintain standalone ADR files.
+Use these conventions only where the project has no established equivalent.
 
-## File Path Convention
+## ADR-Worthiness
 
-ADRs live at `docs/adr/NNNN-<slug>.md` in the project root.
+Recommend a standalone ADR when at least two criteria apply:
 
-- Check existing files to determine the next sequence number (pad to 4 digits: `0001`, `0002`, ...)
-- If `docs/adr/` does not exist, create it
-- Slug: lowercase, hyphenated, describes the decision (for example, `use-postgresql`, `event-driven-notifications`)
+1. Meaningful alternatives were seriously considered.
+2. The choice accepts non-trivial costs or trade-offs.
+3. The choice is hard to reverse or constrains future decisions.
+4. A future reader would struggle to understand the choice without its rationale.
 
-## ADR-Worthiness Criteria
+## Files and Status
 
-Propose an ADR when the decision meets `>= 2` of:
-
-1. Involves meaningful alternatives that were seriously considered
-2. Has non-trivial trade-offs (accepting a real cost, not just "X is better")
-3. Is hard to reverse or will constrain future decisions
-4. Would confuse a future reader if the "why" were absent
-
-## Status Lifecycle
-
-`accepted` -> `superseded by ADR-NNNN`
-
-When a later decision replaces an existing ADR, update the old file's status to `superseded by ADR-NNNN` and link to the new one.
-
-## Supersede Candidate Detection
-
-During `create`, scan existing ADRs and identify possible supersede candidates when the new decision appears to replace an older accepted decision.
-
-- Use candidates as hints only; never update files until the user confirms a specific supersede target
-- Prefer precision over recall; return `none` when the relationship is ambiguous
-- Look for overlap in decision title, slug, governed component, or explicit reversal of an earlier choice
-- Treat refinements, extensions, and partial overlaps as non-superseding unless the replacement is clear
+- Default path: `docs/adr/NNNN-<slug>.md`; use the next unused sequence number, padded to four digits.
+- Slugs are lowercase and hyphenated, describing the decision.
+- Status lifecycle: `proposed` -> `accepted` -> `superseded by ADR-NNNN`.
+- Acceptance requires evidence that the decision is final. Replacement requires explicit authorization and an accepted replacement record.
+- Detect possible replacements through a shared decision surface or explicit reversal language. Refinements and partial overlap do not establish replacement.
+- Link superseded records to their replacements using relative file links.
 
 ## MADR Template
 
+Choose the actual status and date based on evidence; omit an unknown date or mark it according to project conventions. Include only sections and options relevant to the decision, while retaining negative consequences.
+
 ```markdown
 ---
-status: accepted
+status: proposed
 date: YYYY-MM-DD
 ---
 
-# [Short title - what was decided]
+# [Decision title]
 
 ## Context and Problem Statement
 
-Why this decision was needed. Describe the constraint, risk, or requirement that made the choice non-trivial. One short paragraph.
+[Why the choice was necessary.]
 
 ## Decision Drivers
 
-- [Key constraint or requirement]
-- [Another driver, if relevant]
+- [Constraint or requirement]
 
 ## Considered Options
 
-- [Option A]
-- [Option B]
-- [Option C]
+- [An option actually considered]
 
 ## Decision Outcome
 
-Chosen option: "[Option X]", because [concise justification referencing the Decision Drivers].
+[Chosen or proposed option, rationale, and acceptance evidence where relevant.]
 
 ### Positive Consequences
 
-- [What this enables or improves]
+- [Expected benefit]
 
 ### Negative Consequences
 
-- [Cost accepted - be explicit]
+- [Accepted cost, or an explicit evidence gap]
 
 ## Pros and Cons of the Options
 
-### [Option A]
+### [An option actually considered]
 
-- Good: [reason]
-- Bad: [reason]
-
-### [Option B]
-
-- Good: [reason]
-- Bad: [reason]
-
-### [Option C]
-
-- Good: [reason]
-- Bad: [reason]
+- Good: [Benefit]
+- Bad: [Cost]
 ```
-
-## Notes
-
-- "Considered Options" must list every alternative that was genuinely evaluated, not just the winner
-- "Negative Consequences" is mandatory; an ADR without acknowledged costs is a sales pitch, not a decision record
-- Keep each ADR to one decision; split compound decisions into separate files
