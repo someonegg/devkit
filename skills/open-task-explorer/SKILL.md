@@ -1,6 +1,6 @@
 ---
 name: open-task-explorer
-description: Guide open-ended tasks by exploring a few distinct frames, options, or drafts, then comparing tradeoffs and synthesizing a stronger final answer. Use only when the user explicitly requests `open-task-explorer` by name. Never infer its use from the task.
+description: Guide open-ended tasks by exploring a few distinct frames, options, or drafts, then comparing tradeoffs and synthesizing a stronger final answer. Use only when the user explicitly requests `open-task-explorer` by name.
 ---
 
 # Open Task Explorer

@@ -14,6 +14,7 @@ A lightweight AI developer assistant toolkit containing reusable skills and agen
 
 | Skill | Description |
 |-------|-------------|
+| `code-simplify` | Delegates simplification of the current session's changes, or an explicit scope, to the `code-simplifier` subagent and summarizes the results. |
 | `content-research-writer` | Collaborative research and writing support covering outlines, source-backed citations, drafting, and section-by-section feedback. |
 | `decision-record` | Assesses whether a technical decision warrants a standalone ADR and creates or updates ADR files using the project's MADR conventions. |
 | `feature-dev` | End-to-end feature development through uncertainty-driven codebase exploration, competing architecture designs, an approved ExecPlan, milestone-based implementation, and quality review. Used only when explicitly requested. |
@@ -29,7 +30,7 @@ A lightweight AI developer assistant toolkit containing reusable skills and agen
 | `code-architect` | Analyzes existing codebase patterns and conventions, then produces implementation-ready feature architecture blueprints covering files, components, data flows, and build sequences. |
 | `code-explorer` | Traces existing features through their execution paths, architecture layers, patterns, abstractions, and dependencies to inform new development. |
 | `code-reviewer` | Reviews code for defects, security vulnerabilities, quality issues, and violations of project conventions while filtering out low-confidence findings. |
-| `code-simplifier` | Refines recently modified code for clarity, consistency, and maintainability while preserving exact behavior. |
+| `code-simplifier` | Simplifies scoped code, including test code, while preserving behavior and meaningful coverage; simplifies supporting documentation when needed. |
 
 ### Codex (`codex/agents/`)
 
