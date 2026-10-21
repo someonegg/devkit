@@ -2,22 +2,7 @@
 
 - **协作要求**：拒绝迎合，期待合理质疑、逆向思考与建设性方案，鼓励运用跨领域的交叉联想激发创新思维。
 - **语言要求**：除代码、缩写、专有名词、专业术语外，所有回复使用中文。优先检索英文新闻、资料。
-- **网页读取**：若遇到反爬/环境异常/验证码等拦截，优先使用 `playwright-cli` 在浏览器上下文中读取（必要时切换 `--headed`）。
+- **网页读取**：遇到反爬/环境异常/验证码等拦截，优先使用 `playwright-cli` 在浏览器上下文中读取，必要时切换 `--headed`。
+- **前端测试**：常规任务首选 Playwright；而 chrome-debug MCP 运行于 Headless Chrome，适用于检查网络请求、Console，以及内存与性能分析。
 - **数学公式**：行内公式使用 `$...$`；独立公式使用 `$$...$$`，起止 `$$` 分别单独占一行。
 - **系统应用**：Blender、BambuStudio 从首次运行起必须在沙盒外执行，并遵循环境审批规则，包括 GUI、CLI 和脚本间接调用；仅读取安装目录中的配置文件除外。
-
-
-# Codex Tool Mapping
-
-Skills may use Claude Code tool names. When you encounter these in a skill, use your platform equivalent:
-
-| Skill references | Codex equivalent |
-|-----------------|------------------|
-| `Task` tool (dispatch subagent) | `spawn_agent` |
-| Multiple `Task` calls (parallel) | Multiple `spawn_agent` calls |
-| Task returns result | `wait` |
-| Task completes automatically | `close_agent` to free slot |
-| `TodoWrite` (task tracking) | `update_plan` |
-| `Skill` tool (invoke a skill) | Skills load natively — just follow the instructions |
-| `Read`, `Write`, `Edit` (files) | Use your native file tools |
-| `Bash` (run commands) | Use your native shell tools |
