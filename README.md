@@ -17,8 +17,9 @@ A lightweight AI developer assistant toolkit containing reusable skills and agen
 | `code-simplify` | Delegates simplification of the current session's changes, or an explicit scope, to the `code-simplifier` subagent and summarizes the results. |
 | `content-research-writer` | Collaborative research and writing support covering outlines, source-backed citations, drafting, and section-by-section feedback. |
 | `decision-record` | Assesses whether a technical decision warrants a standalone ADR and creates or updates ADR files using the project's MADR conventions. |
-| `feature-dev` | End-to-end feature development through uncertainty-driven codebase exploration, competing architecture designs, an approved ExecPlan, milestone-based implementation, and quality review. Used only when explicitly requested. |
-| `open-task-explorer` | Explores and compares distinct frames, options, or drafts for open-ended tasks, then synthesizes a stronger result. Used only when explicitly requested. |
+| `feature-dev` | End-to-end feature development through uncertainty-driven codebase exploration, competing architecture designs, an approved ExecPlan, milestone-based implementation, and quality review. |
+| `ahub-publish` | Publishes static presentation pages and review diffs to an existing Codex Hub. |
+| `open-task-explorer` | Explores and compares distinct frames, options, or drafts for open-ended tasks, then synthesizes a stronger result. |
 | `playwright-cli` | Task-first browser automation for page interaction, debugging, stateful workflows, and Playwright test execution. |
 
 ## Agents
