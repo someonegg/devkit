@@ -109,7 +109,7 @@ After the user explicitly approves the ExecPlan and before implementation:
 ## Phase 7: Quality Review
 
 1. Make **Review Scope** accurately list every commit and uncommitted path to review.
-2. Launch one `code-simplifier` subagent against that scope. Resolve its suggestions, validate edits, record decisions in **Decision Log**, and refresh **Review Scope**.
+2. Launch one `simplifier` subagent against that scope. Resolve its suggestions, validate edits, record decisions in **Decision Log**, and refresh **Review Scope**.
 3. Then launch three `code-reviewer` subagents in parallel with these focuses:
    - Simplicity, DRYness, and elegance.
    - Bugs and functional correctness.
