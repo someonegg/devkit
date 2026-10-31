@@ -15,6 +15,7 @@
 | 技能 | 说明 |
 |------|------|
 | `simplify` | 委派 `simplifier` 子 agent 简化本次会话改动或明确指定的范围，并汇总结果。 |
+| `code-review` | 委派 `code-reviewer` 子 agent 审查指定范围，并汇总发现、检查与局限。 |
 | `content-research-writer` | 协作式研究与写作支持，涵盖大纲设计、有来源支撑的引用、内容起草与逐节反馈。 |
 | `decision-record` | 评估技术决策是否值得单独记录为 ADR，并按照项目的 MADR 约定创建或更新 ADR 文件。 |
 | `feature-dev` | 通过面向不确定性的代码库探索、多种架构方案比较、经批准的 ExecPlan、按里程碑实现与质量评审，端到端交付功能。 |

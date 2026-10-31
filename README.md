@@ -15,6 +15,7 @@ A lightweight AI developer assistant toolkit containing reusable skills and agen
 | Skill | Description |
 |-------|-------------|
 | `simplify` | Delegates simplification of the current session's changes, or an explicit scope, to the `simplifier` subagent and summarizes the results. |
+| `code-review` | Delegates scoped code review to the `code-reviewer` subagent and summarizes findings, checks, and limitations. |
 | `content-research-writer` | Collaborative research and writing support covering outlines, source-backed citations, drafting, and section-by-section feedback. |
 | `decision-record` | Assesses whether a technical decision warrants a standalone ADR and creates or updates ADR files using the project's MADR conventions. |
 | `feature-dev` | End-to-end feature development through uncertainty-driven codebase exploration, competing architecture designs, an approved ExecPlan, milestone-based implementation, and quality review. |

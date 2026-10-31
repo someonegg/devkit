@@ -1,6 +1,6 @@
 ---
 name: simplify
-description: Delegate scoped code, test, and documentation simplification to the simplifier subagent. Use only when explicitly requested by name.
+description: Delegate scoped code, test, and documentation simplification to the simplifier subagent. Use only when the user explicitly requests `simplify` by name.
 ---
 
 # Simplify
