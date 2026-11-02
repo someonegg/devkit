@@ -6,7 +6,7 @@
 - **数学公式**：行内公式使用 `$...$`；独立公式使用 `$$...$$`，起止 `$$` 分别单独占一行。
 - **系统应用**：Blender、BambuStudio 从首次运行起必须在沙盒外执行，并遵循环境审批规则，包括 GUI、CLI 和脚本间接调用。
 
-## Repository collaboration rules
+## PR workflow
 
 - Follow each project's existing branch, commit, PR, and merge conventions. If none are specified, open a PR from a development branch to the main branch of the current repository when the changes need to be merged.
 - PR titles, PR descriptions, and commit messages must be written in English. After pushing new commits, review and update the PR description to reflect the final changes and validation results.
