@@ -8,7 +8,8 @@
 
 ## PR workflow
 
-- Follow each project's existing branch, commit, PR, and merge conventions. If none are specified, open a PR from a development branch to the main branch of the current repository when the changes need to be merged.
-- PR titles, PR descriptions, and commit messages must be written in English. After pushing new commits, review and update the PR description to reflect the final changes and validation results.
-- Once a PR is open, automatically commit and push subsequent changes for that PR after validation, then confirm CI passes and fix any failures, unless the user says otherwise.
-- After confirming a PR has merged, update the local main branch and remove the temporary branches and worktrees associated with that PR. Preserve uncommitted work; do not force cleanup or remove unrelated branches or worktrees.
+1. **Authorization & Governance**: Strictly follow project management and workflow conventions. Do not open or merge a PR without explicit user authorization.
+2. Follow each project's existing branch, commit, PR, and merge conventions. If none are specified, open a PR from a development branch to the main branch of the current repository when the changes need to be merged.
+3. PR titles, PR descriptions, and commit messages must be written in English. After pushing new commits, review and update the PR description to reflect the final changes and validation results.
+4. Once a PR is opened, automatically commit and push subsequent changes for that PR after validation, then confirm CI passes and fix any failures, unless the user instructs otherwise.
+5. After confirming a PR has been merged, update the local main branch and remove the temporary branches and worktrees associated with that PR. Preserve uncommitted work; do not force cleanup or remove unrelated branches or worktrees.
