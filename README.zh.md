@@ -14,27 +14,12 @@
 
 | 技能 | 说明 |
 |------|------|
+| `open-task-explorer` | 针对开放式任务探索并比较不同框架、选项或草稿，再综合形成更完善的结果。 |
+| `feature-dev` | 通过面向不确定性的代码库探索、多种架构方案比较、经批准的 ExecPlan、按里程碑实现与质量评审，端到端交付功能。 |
+| `decision-record` | 评估技术决策是否值得单独记录为 ADR，并按照项目的 MADR 约定创建或更新 ADR 文件。 |
 | `simplify` | 委派 `simplifier` 子 agent 简化本次会话改动或明确指定的范围，并汇总结果。 |
 | `code-review` | 委派 `code-reviewer` 子 agent 审查指定范围，并汇总发现、检查与局限。 |
-| `content-research-writer` | 协作式研究与写作支持，涵盖大纲设计、有来源支撑的引用、内容起草与逐节反馈。 |
-| `decision-record` | 评估技术决策是否值得单独记录为 ADR，并按照项目的 MADR 约定创建或更新 ADR 文件。 |
-| `feature-dev` | 通过面向不确定性的代码库探索、多种架构方案比较、经批准的 ExecPlan、按里程碑实现与质量评审，端到端交付功能。 |
-| `open-task-explorer` | 针对开放式任务探索并比较不同框架、选项或草稿，再综合形成更完善的结果。 |
-
-## Agents
-
-### Claude (`claude/agents/`)
-
-| Agent | 说明 |
-|-------|------|
-| `code-architect` | 分析现有代码库的模式与约定，输出可直接用于实施的功能架构蓝图，涵盖文件、组件、数据流与构建顺序。 |
-| `code-explorer` | 沿执行路径、架构层、模式、抽象与依赖关系追踪现有功能，为后续开发提供依据。 |
-| `code-reviewer` | 审查代码缺陷、安全漏洞、质量问题及违反项目约定之处，同时过滤低置信度问题。 |
-| `simplifier` | 简化指定范围内的代码、测试和文档，保留行为、有效测试覆盖及必要信息。 |
-
-### Codex (`codex/agents/`)
-
-通过 Codex 专用的 TOML 配置提供与上文相同的 Agent 角色。
+| `repo-health` | 并行启动三个分别侧重代码、测试和文档的子 agent，寻找仓库腐化信号。 |
 
 ## 安装
 

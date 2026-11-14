@@ -7,7 +7,7 @@ description: Deliver features end to end through uncertainty-driven exploration,
 
 Deliver features through a structured workflow: understand the request and codebase, resolve open questions, compare architecture approaches, write an ExecPlan, implement by milestone, and complete a quality review.
 
-Invoking `feature-dev` authorizes use of the specialized subagents required by this workflow and the creation of code commits.
+Invoking `feature-dev` authorizes use of the subagents required by this workflow and the creation of code commits.
 
 ## Feature Packet
 
@@ -35,7 +35,7 @@ If the user provides an existing ExecPlan:
 ## Phase 2: Codebase Exploration
 
 1. Prioritize unknowns that could change behavior, scope, architecture, safety, compatibility, or acceptance. Route user preferences to Phase 3; investigate repository facts directly.
-2. Launch 2–3 `code-explorer` subagents in parallel.
+2. Launch 2–3 subagents in parallel to explore the codebase.
    - Assign each a distinct decision-relevant unknown.
    - Include a blindspot or counterexample perspective across the assignments.
    - Require each to return claims, supporting evidence, boundaries or counterexamples, confidence with rationale, design implications, newly exposed unknowns, and key files.
@@ -72,11 +72,11 @@ Use this template for each entry:
 
 ## Phase 4: Architecture Design
 
-1. Give all architecture subagents the same design brief: the problem frame, evidence-backed repository facts, user decisions, non-goals, compatibility boundaries, and remaining assumptions.
-2. Launch two `code-architect` subagents in parallel.
+1. Give all subagents assigned to architecture design the same design brief: the problem frame, evidence-backed repository facts, user decisions, non-goals, compatibility boundaries, and remaining assumptions.
+2. Launch two subagents in parallel to propose architecture designs.
    - Assign one a minimal, reversible design and the other an evolutionary or target-state design.
    - Require each to identify its thesis, changed and preserved boundaries, supporting evidence, assumptions, falsifying evidence, failure modes, reversibility, migration and rollback, validation strategy, and remaining unknowns.
-3. After both designs return, launch a third `code-architect` with the shared brief and both complete proposals. Require it to critique their shared assumptions, contradictions, missing evidence, and failure modes.
+3. After both designs return, launch a third subagent with the shared brief and both complete proposals. Require it to critique their shared assumptions, contradictions, missing evidence, and failure modes.
 4. If the choice depends on a resolvable empirical unknown, return to Phase 2 or 3 instead of asking the user to choose without evidence.
 5. Compare requirement fit, uncertainty exposure, cost of being wrong, reversibility, change radius, and long-term trade-offs. Present a reasoned recommendation and ask the user to confirm the recommended direction and its trade-offs, or choose another approach.
 
