@@ -109,14 +109,15 @@ After the user explicitly approves the ExecPlan and before implementation:
 ## Phase 7: Quality Review
 
 1. Make **Review Scope** accurately list every commit and uncommitted path to review.
-2. Launch one `simplifier` subagent against that scope. Resolve its suggestions, validate edits, record decisions in **Decision Log**, and refresh **Review Scope**.
-3. Then launch three `code-reviewer` subagents in parallel with these focuses:
+2. Launch three subagents in parallel. Give each the **Review Scope**, the comparison base, and one of these focuses:
    - Simplicity, DRYness, and elegance.
    - Bugs and functional correctness.
    - Project conventions and abstractions.
-4. Consolidate the findings and recommend the highest-severity issues to fix.
-5. Present the findings and ask whether to fix them now, defer them, or proceed as-is.
-6. Apply the decision. Validate edits, record fixes and deferrals in **Decision Log**, and update **Progress**.
+
+   Instruct each to review without modifying files or running commands that change project state, reporting only evidence-backed, actionable findings tied to the reviewed changes (distinguishing pre-existing concerns and avoiding subjective style preferences). Require each finding to include severity (`P0` critical to `P3` minor), file and line references, impact, supporting evidence, and a suggested fix, and ask each subagent to report the checks performed and any material review limitations.
+3. Consolidate the findings and recommend the highest-severity issues to fix.
+4. Present the findings and ask whether to fix them now, defer them, or proceed as-is.
+5. Apply the decision. Validate edits, record fixes and deferrals in **Decision Log**, and update **Progress**.
 
 ## Phase 8: Summary
 

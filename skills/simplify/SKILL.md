@@ -1,10 +1,74 @@
 ---
 name: simplify
-description: Delegate scoped code, test, and documentation simplification to the simplifier subagent. Use only when the user explicitly requests `simplify` by name.
+description: Simplify scoped code, tests, and documentation while preserving behavior, meaningful coverage, and essential information. Use only when the user explicitly requests `simplify` by name.
 ---
 
 # Simplify
 
-Simplify code, tests, and documentation, independently or together. Use the user's specified scope; otherwise default to all local changes, including staged, unstaged, and untracked files. Follow any simplification focus specified by the user.
+## Delegation
 
-Delegate the scope and relevant context to a `simplifier` subagent, which owns simplification and validation under its existing role instructions. Wait for completion and summarize its changes, checks, and any unresolved issues.
+1. Launch one subagent with permission to edit within the target scope. Give it the target files or diff, any comparison base, the requested focus, and relevant constraints. If the user didn't specify a scope, default to all local changes, including staged, unstaged, and untracked files.
+2. Give the subagent the **Execution** section below. The subagent performs the edits and validation itself.
+3. Wait for the subagent to finish. Review its diff and summarize the changes, checks, and unresolved issues.
+
+## Execution
+
+Make only changes that improve clarity or maintenance. Code, tests, and documentation may be simplified independently.
+
+### Scope
+
+- Confirm the goal, scope, constraints, and acceptance criteria. Identify target files or a diff before editing.
+- Use the supplied scope and focus. If no scope is given, default to all local changes, including staged, unstaged, and untracked files.
+- Investigate missing context and ask for clarification only when it blocks progress.
+- Follow applicable project instructions and repository conventions, including AGENTS.md or CLAUDE.md.
+- Preserve others' edits and adapt to concurrent changes.
+- Keep cleanup within scope. Report unrelated concerns separately.
+
+### Code
+
+- Preserve public interfaces, outputs, exceptions, execution order, side effects, and timing or concurrency guarantees.
+- Report behavior defects separately; do not hide fixes in cleanup.
+- Reduce nesting, duplication, and low-value abstractions. Improve names and group related logic without combining responsibilities.
+- Prefer explicit code; avoid nested ternaries. Preserve useful abstractions, extensibility, and debuggability.
+- Remove comments that restate obvious code. Keep those explaining rationale, constraints, or trade-offs.
+- Fewer lines alone are not an improvement.
+
+### Tests
+
+- Preserve meaningful coverage. Before removing or merging tests, identify where their coverage remains.
+- Similar steps at different test levels do not prove redundancy.
+- Prefer behavior assertions. Keep interaction, ordering, timing, and concurrency assertions that protect contracts.
+
+### Documentation
+
+#### Necessity
+
+- Ask what each passage helps its audience understand, do, decide, or maintain. Delete it only if those needs remain met.
+- Keep essential context, rationale, constraints, and examples. Information available in code can still deserve documentation.
+- Verify suspected errors or staleness against implementation and project conventions.
+
+#### Long passages
+
+- Identify the main question and distinct points. Cut repetition, empty introductions, and distracting detail; merge equivalent explanations.
+- Follow the reader's learning or task order. Put conclusions or entry points first, and exceptions beside their rules.
+- Split mixed topics. Add headings only to aid navigation.
+- Use numbered steps, lists of parallel items, or comparison tables where they clarify the content.
+- Reduce comprehension cost, not just length. Avoid information loss and fragmented navigation.
+
+#### Placement
+
+- Follow project conventions for document ownership. Check section placement, prerequisites, and reading order.
+- Move distracting detail to a suitable existing location. Leave a short summary and link where needed; avoid duplicate explanations.
+- Create a document only for a distinct purpose. Update links and references after moves.
+- Preserve historical ADR decisions, context, and replacement links. Only correct necessary references or status within scope; superseded decisions are intentional history.
+
+### Workflow
+
+1. Inspect the diff and relevant context: implementation, callers, contracts, tests, or documentation. Identify what could be lost; skip unrelated code investigation for documentation-only tasks.
+2. Make the smallest useful changes. If none are warranted, say so.
+3. Validate by change type:
+   - Code/tests: run relevant existing tests, type checks, or static checks.
+   - Documentation: check accuracy, essential information, organization, and links.
+   - Mixed changes: do both. Add tests only to resolve meaningful behavior uncertainty, not to mirror implementation.
+4. Review the final diff for scope creep and behavior, coverage, or information loss. Leave risky changes as proposals when preservation lacks evidence.
+5. Report meaningful changes, checks, and uncertainty. Explain significant removals and retained coverage for deleted tests. Support material risk claims with file:line references or check results; separate facts from assumptions. Passing tests or visual inspection alone do not prove equivalence.

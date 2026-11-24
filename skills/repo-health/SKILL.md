@@ -1,6 +1,6 @@
 ---
 name: repo-health
-description: Review repository code, tests, and documentation for decay, inconsistencies, and maintenance issues using three parallel subagents. Use for repository health audits and cleanup recommendations.
+description: Review repository code, tests, and documentation for decay, inconsistencies, and maintenance issues using three parallel subagents. Use only when the user explicitly requests `repo-health` by name.
 ---
 
 # Repository Health

@@ -2,13 +2,12 @@
 
 [中文](./README.zh.md)
 
-A lightweight AI developer assistant toolkit containing reusable skills and agent configurations for Claude and Codex.
+A lightweight AI developer assistant toolkit containing reusable skills and shared instructions for Claude Code and Codex.
 
 ## Contents
 
 - `skills/` — Reusable skill definitions shared across AI assistants
-- `claude/agents/` — Agent configurations for Claude Code
-- `codex/agents/` — Agent configurations for Codex
+- `instructions/` — Shared global instruction file for Claude Code and Codex
 
 ## Skills
 
@@ -17,30 +16,29 @@ A lightweight AI developer assistant toolkit containing reusable skills and agen
 | `open-task-explorer` | Explores and compares distinct frames, options, or drafts for open-ended tasks, then synthesizes a stronger result. |
 | `feature-dev` | End-to-end feature development through uncertainty-driven codebase exploration, competing architecture designs, an approved ExecPlan, milestone-based implementation, and quality review. |
 | `decision-record` | Assesses whether a technical decision warrants a standalone ADR and creates or updates ADR files using the project's MADR conventions. |
-| `simplify` | Delegates simplification of the current session's changes, or an explicit scope, to the `simplifier` subagent and summarizes the results. |
-| `code-review` | Delegates scoped code review to the `code-reviewer` subagent and summarizes findings, checks, and limitations. |
+| `simplify` | Simplifies scoped code, tests, and documentation while preserving behavior, meaningful coverage, and essential information. |
 | `repo-health` | Launches three parallel subagents focused on code, tests, and documentation to identify signs of repository decay. |
 
 ## Installation
 
 ### Claude Code
 
-Copy agents and skills to your local Claude directory:
+Copy the skills and global instructions to your local Claude directory. If you already have a `CLAUDE.md`, merge the instructions into it instead of running the final copy command.
 
 ```bash
-mkdir -p ~/.claude/agents ~/.claude/skills
-cp -R claude/agents/* ~/.claude/agents/
+mkdir -p ~/.claude/skills
 cp -R skills/* ~/.claude/skills/
+cp -i instructions/AGENTS.md ~/.claude/CLAUDE.md
 ```
 
 ### Codex
 
-Copy agents and skills to your local Codex directory:
+Copy the skills and global instructions to your local Codex directory. If you already have an `AGENTS.md`, merge the instructions into it instead of running the final copy command.
 
 ```bash
-mkdir -p ~/.codex/agents ~/.codex/skills
-cp -R codex/agents/* ~/.codex/agents/
+mkdir -p ~/.codex/skills
 cp -R skills/* ~/.codex/skills/
+cp -i instructions/AGENTS.md ~/.codex/AGENTS.md
 ```
 
 ## License
